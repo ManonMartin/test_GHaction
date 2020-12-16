@@ -1,0 +1,17 @@
+name: test-gh-actions # workflow name
+
+on: [push]# triggering event
+  # schedule:
+   # - cron: '0 9 * * 1'
+
+jobs: # groups all the jobs ran in this workflow
+  run-R-script: # name of the first job
+    runs-on: ubuntu-latest # The type of runner that the job will run on
+    steps: # group all the steps in the job named run-R-script
+       - uses: actions/checkout@master # an action that checks out your repository and downloads it to the runner, allowing you to run actions against your code
+       - uses: r-lib/actions/setup-r@v1 # sets up the R environment
+         with:
+           r-version: '3.5.3' # The R version to download (if necessary) and use.
+       - run: Rscript -e 'print("hello")'
+    
+ 
