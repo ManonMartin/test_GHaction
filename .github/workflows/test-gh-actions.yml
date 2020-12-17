@@ -8,11 +8,22 @@ jobs: # groups all the jobs ran in this workflow
   run-R-script: # name of the first job
     runs-on: ubuntu-latest # The type of runner that the job will run on
     steps: # group all the steps in the job named run-R-script
+       - name: testing that hpar is up-to-date
        - uses: actions/checkout@master # an action that checks out your repository and downloads it to the runner, allowing you to run actions against your code
        - uses: r-lib/actions/setup-r@v1 # sets up the R environment
          with:
            r-version: '3.5.3' # The R version to download (if necessary) and use.
        - run: R -e 'print("hello")'
        - run: Rscript script/Hello.R
+       - name: if failed, send a slack message
+         if: always() #failure()
+         uses: rtCamp/action-slack-notify@v2
+         env:
+           SLACK_COLOR: '#3278BD'
+           SLACK_ICON: https://github.com/rtCamp.png?size=48
+           SLACK_MESSAGE: 'Post Content :rocket:'
+           SLACK_TITLE: Message
+           SLACK_USERNAME: rtBot
+           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     
  
