@@ -39,8 +39,6 @@ jobs: # groups all the jobs ran in this workflow
            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
          with:
            filename: .github/issue-template.md
-           assignees: ManonMartin, octocat
-           update_existing: true
            
        - run: 'echo Created issue number ${{ steps.create-issue.outputs.number }}'
        - run: 'echo Created ${{ steps.create-issue.outputs.url }}'
