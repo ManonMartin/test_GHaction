@@ -12,15 +12,13 @@ jobs: # groups all the jobs ran in this workflow
        - uses: actions/checkout@master # an action that checks out your repository and downloads it to the runner, allowing you to run actions against your code
        
        - uses: r-lib/actions/setup-r@v1 # sets up the R environment
-         with:
-           r-version: '3.5.3' # The R version to download (if necessary) and use.
-           
+   
        - name: test if hpar is up-to-date
          run: Rscript script/Hello.R
     
   if-failure: # name of the second job
      runs-on: ubuntu-latest # The type of runner that the job will run on
-     if: always() #failure()
+     if: failure() #failure() or always()
      needs: run-R-script
      steps: # group all the steps in the job named run-R-script
        - uses: actions/checkout@master # an action that checks out your repository and downloads it to the runner, allowing you to run actions against your code
