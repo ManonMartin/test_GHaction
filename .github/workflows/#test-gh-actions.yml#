@@ -24,7 +24,6 @@ jobs: # groups all the jobs ran in this workflow
      steps: # group all the steps in the job named run-R-script
      
        - name: Send a slack message
-         if: always() #failure()
          uses: rtCamp/action-slack-notify@v2
          env:
            SLACK_COLOR: '#76D7C4'
@@ -34,7 +33,6 @@ jobs: # groups all the jobs ran in this workflow
            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
            
        - name: Create a new issue
-         if: always() #failure()
          uses: JasonEtco/create-an-issue@v2
          env:
            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
