@@ -12,7 +12,7 @@ jobs: # groups all the jobs ran in this workflow
        - uses: r-lib/actions/setup-r@v1 # sets up the R environment
          with:
            r-version: '3.5.3' # The R version to download (if necessary) and use.
-       - run: Rscript -e 'print("hello")'
-       - run: Rscript -e script/Hello.R
+       - run: R -e 'print("hello")'
+       - run: Rscript script/Hello.R
     
  
