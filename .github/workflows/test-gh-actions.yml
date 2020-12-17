@@ -5,6 +5,9 @@ on: [push]# triggering event
    # - cron: '0 9 * * 1'
 
 jobs: # groups all the jobs ran in this workflow
+#----------
+# JOB 1
+#----------
   run-R-script: # name of the first job
     runs-on: ubuntu-latest # The type of runner that the job will run on
     steps: # group all the steps in the job named run-R-script
@@ -15,7 +18,9 @@ jobs: # groups all the jobs ran in this workflow
    
        - name: test if hpar is up-to-date
          run: Rscript script/Hello.R
-    
+#------------------ 
+# conditional JOB 2
+#------------------ 
   if-failure: # name of the second job
      runs-on: ubuntu-latest # The type of runner that the job will run on
      if: failure() #failure() or always()
@@ -32,7 +37,7 @@ jobs: # groups all the jobs ran in this workflow
            SLACK_USERNAME: hparBot
            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
      
-       - uses: JasonEtco/create-an-issue@v2
+       - uses: JasonEtco/create-an-issue@v2 # create an issue on GitHub
          id: create-issue
          env:
            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
