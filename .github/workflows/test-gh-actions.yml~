@@ -1,35 +1,17 @@
-name: 'Setup R environment'
-description: 'Setup a R environment and add it to the PATH'
-author: 'Jim Hester'
-inputs:
-  r-version:
-    description: 'Version range or exact version of an R version to use.'
-    default: 'release'
-  rtools-version:
-    description: 'Exact version of Rtools to use. Default uses latest suitable
-    rtools for the given version of R.'
-  Ncpus:
-    description: 'Value to set the R option `Ncpus` to.'
-    default: '1'
-  crayon.enabled:
-    description: 'Value to set the R option `crayon.enabled` to.'
-    default: 'TRUE'
-  remove-openmp-macos:
-    description: 'If true, remove `-fopenmp` from the default compilation
-    flags, e.g. `SHLIB_OPENMP_CFLAGS`, as the macOS Command Line Tools do not
-    support OpenMP'
-    default: true
-  http-user-agent:
-    description: 'If "default" or "", sets the HTTPUserAgent option to e.g. for R
-    3.6.3 running on macOS Catalina, "R/3.6.3 R (3.6.3 x86_64-apple-darwin17.0
-    x86_64 darwin17.0) on GitHub Actions". Otherwise uses whatever value is
-    set.'
-    default: 'default'
-  install-r:
-    default: true
-outputs:
-  installed-r-version:
-    description: 'The full R version installed'
-runs:
-  using: 'node12'
-  main: 'lib/setup-r.js'
+name: test-gh-actions # workflow name
+
+on: [push]# triggering event
+  # schedule:
+   # - cron: '0 9 * * 1'
+
+jobs: # groups all the jobs ran in this workflow
+  run-R-script: # name of the first job
+    runs-on: ubuntu-latest # The type of runner that the job will run on
+    steps: # group all the steps in the job named run-R-script
+       - uses: actions/checkout@master # an action that checks out your repository and downloads it to the runner, allowing you to run actions against your code
+       - uses: r-lib/actions/setup-r@v1 # sets up the R environment
+         with:
+           r-version: '3.5.3' # The R version to download (if necessary) and use.
+       - run: Rscript -e 'print("hello")'
+    
+ 

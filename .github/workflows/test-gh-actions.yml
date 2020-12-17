@@ -13,5 +13,6 @@ jobs: # groups all the jobs ran in this workflow
          with:
            r-version: '3.5.3' # The R version to download (if necessary) and use.
        - run: Rscript -e 'print("hello")'
+       - run: Rscript -e script/Hello.R
     
  
