@@ -22,11 +22,11 @@ jobs: # groups all the jobs ran in this workflow
          if: always() #failure()
          uses: rtCamp/action-slack-notify@v2
          env:
-           SLACK_COLOR: '#3278BD'
-           SLACK_ICON: https://github.com/rtCamp.png?size=48
-           SLACK_MESSAGE: 'Post Content :rocket:'
-           SLACK_TITLE: Message
-           SLACK_USERNAME: rtBot
+           SLACK_COLOR: '#76D7C4'
+           SLACK_ICON: ':octocat:'
+           SLACK_MESSAGE: ':seedling: a new version of HPA is available'
+           SLACK_TITLE: hpar version check
+           SLACK_USERNAME: hparBot
            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     
  
