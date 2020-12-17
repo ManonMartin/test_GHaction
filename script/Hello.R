@@ -30,7 +30,7 @@ test <- apply(mat,2, duplicated)[2,]
   
 if (sum(test)==3){
   "Everything is up-to-date for hpar"
-  # stop("generating an error on purpose")
+  stop("generating an error on purpose")
   }else{
     ix <- !test
     txt_hpar <-  paste0("A new version of HPA is available: " , paste0(names(mat["hpaRelease",ix]),": ",
