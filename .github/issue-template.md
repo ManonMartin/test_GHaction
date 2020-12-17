@@ -1,6 +1,6 @@
 ---
-title: Checking for hpar update ({{ tools.context.workflow }})
+title: Checking for hpar update ({{ workflow }})
 assignees: ManonMartin
 labels: enhancement
 ---
-Triggered workflow: {{ tools.context.workflow }}.
+Triggered workflow: {{ workflow }}.

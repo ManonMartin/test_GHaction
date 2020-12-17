@@ -33,6 +33,7 @@ jobs: # groups all the jobs ran in this workflow
            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
      
        - uses: JasonEtco/create-an-issue@v2
+         id: create-issue
          env:
            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
          with:
