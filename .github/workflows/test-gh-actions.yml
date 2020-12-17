@@ -19,7 +19,8 @@ jobs: # groups all the jobs ran in this workflow
          run: Rscript script/Hello.R
     
   if-failure: # name of the second job
-     #if: always() #failure()
+     runs-on: ubuntu-latest # The type of runner that the job will run on
+     if: always() #failure()
      needs: run-R-script
      steps: # group all the steps in the job named run-R-script
      
