@@ -10,14 +10,23 @@ jobs: # groups all the jobs ran in this workflow
 #----------
   run-R-script: # name of the first job
     runs-on: ubuntu-latest # The type of runner that the job will run on
+    container: bioconductor/bioconductor_docker:devel
+    
     steps: # group all the steps in the job named run-R-script
    
        - uses: actions/checkout@master # an action that checks out your repository and downloads it to the runner, allowing you to run actions against your code
        
-       - uses: r-lib/actions/setup-r@v1 # sets up the R environment
-   
-       - name: test if hpar is up-to-date
-         run: Rscript script/Hello.R
+       - name: Install latest hpar
+         run:  Rscript -e "BiocManager::install('lgatto/hpar')"
+         
+       - name: Check HPA release
+        ## This will fail if there's a new version
+         run: Rscript -e "stopifnot(!hpar:::newHpaVersion())"
+       
+       # old
+       #- uses: r-lib/actions/setup-r@v1 # sets up the R environment
+       #- name: test if hpar is up-to-date
+       #  run: Rscript script/Hello.R
 #------------------ 
 # conditional JOB 2
 #------------------ 
