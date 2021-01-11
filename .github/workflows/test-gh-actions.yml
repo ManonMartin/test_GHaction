@@ -8,11 +8,11 @@ jobs: # groups all the jobs ran in this workflow
 #----------
 # JOB 1
 #----------
-  run-R-script: # name of the first job
+  test-HPA-version: # name of the first job
     runs-on: ubuntu-latest # The type of runner that the job will run on
     container: bioconductor/bioconductor_docker:devel
     
-    steps: # group all the steps in the job named run-R-script
+    steps: # group all the steps in the job named test-HPA-version
    
        - uses: actions/checkout@master # an action that checks out your repository and downloads it to the runner, allowing you to run actions against your code
        
@@ -23,18 +23,16 @@ jobs: # groups all the jobs ran in this workflow
         ## This will fail if there's a new version
          run: Rscript -e "stopifnot(!hpar:::newHpaVersion())"
        
-       # old
-       #- uses: r-lib/actions/setup-r@v1 # sets up the R environment
-       #- name: test if hpar is up-to-date
-       #  run: Rscript script/Hello.R
 #------------------ 
 # conditional JOB 2
 #------------------ 
   if-failure: # name of the second job
      runs-on: ubuntu-latest # The type of runner that the job will run on
      if: failure() #failure() or always()
-     needs: run-R-script
-     steps: # group all the steps in the job named run-R-script
+     needs: test-HPA-version
+     
+     steps: # group all the steps in the job named if-failure
+     
        - uses: actions/checkout@master # an action that checks out your repository and downloads it to the runner, allowing you to run actions against your code
    
        - name: Send a slack message
