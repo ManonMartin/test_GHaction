@@ -21,8 +21,8 @@ jobs: # groups all the jobs ran in this workflow
          
        - name: Check HPA release
         ## This will fail if there's a new version
-         run: Rscript -e "stopifnot(!hpar:::newHpaVersion())"
-       
+         #run: Rscript -e "stopifnot(!hpar:::newHpaVersion())"
+         run: Rscript -e "stop()"
 #------------------ 
 # conditional JOB 2
 #------------------ 
