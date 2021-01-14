@@ -1,9 +1,11 @@
 name: test-gh-actions # workflow name
 
-on: [push]# triggering event
-  # schedule:
-   # - cron: '0 9 * * 1'
-
+#on: [push]# triggering event
+on: # multiple triggering events
+  push:
+  schedule:
+   - cron: '0 9 * * MON-FRI'
+   
 jobs: # groups all the jobs ran in this workflow
 #----------
 # JOB 1
@@ -21,8 +23,7 @@ jobs: # groups all the jobs ran in this workflow
          
        - name: Check HPA release
         ## This will fail if there's a new version
-         #run: Rscript -e "stopifnot(!hpar:::newHpaVersion())"
-         run: Rscript -e "stop()"
+         run: Rscript -e "stopifnot(!hpar:::newHpaVersion())"
 #------------------ 
 # conditional JOB 2
 #------------------ 
