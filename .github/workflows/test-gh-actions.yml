@@ -4,7 +4,7 @@ name: test-gh-actions # workflow name
 on: # multiple triggering events
   push:
   schedule:
-   - cron: '0 9 * * MON-FRI'
+   - cron: '0 9 * * MON'
    
 jobs: # groups all the jobs ran in this workflow
 #----------
@@ -35,15 +35,6 @@ jobs: # groups all the jobs ran in this workflow
      steps: # group all the steps in the job named if-failure
      
        - uses: actions/checkout@master # an action that checks out your repository and downloads it to the runner, allowing you to run actions against your code
-   
-       - name: Send a slack message
-         uses: rtCamp/action-slack-notify@v2
-         env:
-           SLACK_COLOR: '#76D7C4'
-           SLACK_MESSAGE: ':seedling: a new version of HPA is available'
-           SLACK_TITLE: hpar version check
-           SLACK_USERNAME: hparBot
-           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
      
        - uses: JasonEtco/create-an-issue@v2 # create an issue on GitHub
          id: create-issue
