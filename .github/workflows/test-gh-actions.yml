@@ -1,4 +1,4 @@
-name: test-gh-actions # workflow name
+name: test-HPA-version # workflow name
 
 #on: [push]# triggering event
 on: # multiple triggering events
