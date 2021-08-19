@@ -10,7 +10,7 @@ jobs: # groups all the jobs ran in this workflow
 #----------
 # JOB 1
 #----------
-  install-hpar: # name of the first job
+  test-HPA-version: # name of the first job
     runs-on: ubuntu-latest # The type of runner that the job will run on
     container: bioconductor/bioconductor_docker:devel
     env:
@@ -21,17 +21,7 @@ jobs: # groups all the jobs ran in this workflow
        
        - name: Install latest hpar
          run:  Rscript -e "BiocManager::install('lgatto/hpar')"
-         
-#----------
-# JOB 2
-#----------   
-  test-HPA-version: # name of the first job
-    runs-on: ubuntu-latest # The type of runner that the job will run on
-    container: bioconductor/bioconductor_docker:devel
-    env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-    steps: # group all the steps in the job named test-HPA-version
-
+       
        - name: Check HPA release
          id: check_HPA
         ## This will fail if there's a new version
@@ -39,18 +29,19 @@ jobs: # groups all the jobs ran in this workflow
          #run: Rscript -e "stopifnot(FALSE)"
 
 #------------------ 
-# conditional JOB 3
+# conditional JOB 2
 #------------------ 
-  if-failure: # name of the second job
-     runs-on: ubuntu-latest # The type of runner that the job will run on
-     needs: test-HPA-version
-     if: failure()
+  #if-failure: # name of the second job
+     #runs-on: ubuntu-latest # The type of runner that the job will run on
+     #needs: test-HPA-version
+     #if: failure()
      
      
-     steps: # group all the steps in the job named if-failure
+     #steps: # group all the steps in the job named if-failure
      
        - uses: actions/checkout@master # an action that checks out your repository and downloads it to the runner, allowing you to run actions against your code
-     
+         if: always() && steps.check_HPA.outcome == 'failure'
+         
        - uses: JasonEtco/create-an-issue@v2 # create an issue on GitHub
          id: create-issue
          env:
@@ -59,6 +50,8 @@ jobs: # groups all the jobs ran in this workflow
            filename: .github/ISSUE_TEMPLATE/checking-for-hpar-update-.md
            
        - run: 'echo Created issue number ${{ steps.create-issue.outputs.number }}'
+ 
        - run: 'echo Created ${{ steps.create-issue.outputs.url }}'
-         
+   
+       
  
