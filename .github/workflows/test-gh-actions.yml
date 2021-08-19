@@ -10,7 +10,7 @@ jobs: # groups all the jobs ran in this workflow
 #----------
 # JOB 1
 #----------
-  test-HPA-version: # name of the first job
+  install-hpar: # name of the first job
     runs-on: ubuntu-latest # The type of runner that the job will run on
     container: bioconductor/bioconductor_docker:devel
     env:
@@ -25,7 +25,7 @@ jobs: # groups all the jobs ran in this workflow
 #----------
 # JOB 2
 #----------   
-  test-HPA-version2: # name of the first job
+  test-HPA-version: # name of the first job
     runs-on: ubuntu-latest # The type of runner that the job will run on
     container: bioconductor/bioconductor_docker:devel
     env:
@@ -35,15 +35,15 @@ jobs: # groups all the jobs ran in this workflow
        - name: Check HPA release
          id: check_HPA
         ## This will fail if there's a new version
-         #run: Rscript -e "stopifnot(!hpar:::newHpaVersion())"
-         run: Rscript -e "stopifnot(FALSE)"
+         run: Rscript -e "stopifnot(!hpar:::newHpaVersion())"
+         #run: Rscript -e "stopifnot(FALSE)"
 
 #------------------ 
 # conditional JOB 3
 #------------------ 
   if-failure: # name of the second job
      runs-on: ubuntu-latest # The type of runner that the job will run on
-     needs: test-HPA-version2
+     needs: test-HPA-version
      if: failure()
      
      
