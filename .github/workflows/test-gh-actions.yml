@@ -31,7 +31,7 @@ jobs: # groups all the jobs ran in this workflow
     container: bioconductor/bioconductor_docker:devel
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      
+    needs: test-HPA-version  
     steps: # group all the steps in the job named test-HPA-version
     
       - name: Check HPA release
