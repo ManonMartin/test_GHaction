@@ -43,7 +43,7 @@ jobs: # groups all the jobs ran in this workflow
 #------------------ 
   if-failure: # name of the second job
      runs-on: ubuntu-latest # The type of runner that the job will run on
-     needs: test-HPA-version
+     needs: test-HPA-version2
      if: needs.test-HPA-version2.result == 'failure'  #failure() or always()
      
      
