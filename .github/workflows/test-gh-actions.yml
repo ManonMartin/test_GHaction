@@ -22,7 +22,18 @@ jobs: # groups all the jobs ran in this workflow
        - name: Install latest hpar
          run:  Rscript -e "BiocManager::install('lgatto/hpar')"
        
-       - name: Check HPA release
+   
+#----------
+# JOB 2
+#----------
+  test-HPA-version2: # name of the first job
+    runs-on: ubuntu-latest # The type of runner that the job will run on
+    container: bioconductor/bioconductor_docker:devel
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps: # group all the steps in the job named test-HPA-version
+    
+    - name: Check HPA release
          id: check_HPA
         ## This will fail if there's a new version
          run: Rscript -e "stopifnot(!hpar:::newHpaVersion())"
@@ -31,16 +42,17 @@ jobs: # groups all the jobs ran in this workflow
 #------------------ 
 # conditional JOB 2
 #------------------ 
-  #if-failure: # name of the second job
-     #runs-on: ubuntu-latest # The type of runner that the job will run on
-     #needs: test-HPA-version
-     #if: failure()
+  if-failure: # name of the second job
+     runs-on: ubuntu-latest # The type of runner that the job will run on
+     needs: test-HPA-version2
+     if: always() && (needs.test-HPA-version2.result == 'failure')
      
      
      #steps: # group all the steps in the job named if-failure
      
        - uses: actions/checkout@master # an action that checks out your repository and downloads it to the runner, allowing you to run actions against your code
-         if: always() && steps.check_HPA.outcome == 'failure'
+         
+         #if: always() && steps.check_HPA.outcome == 'failure'
          
        - uses: JasonEtco/create-an-issue@v2 # create an issue on GitHub
          id: create-issue
