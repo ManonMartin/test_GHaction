@@ -26,30 +26,30 @@ jobs: # groups all the jobs ran in this workflow
 #----------
 # JOB 2
 #----------
-  test-HPA-version2: # name of the first job
-    runs-on: ubuntu-latest # The type of runner that the job will run on
-    container: bioconductor/bioconductor_docker:devel
-    env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-    needs: test-HPA-version  
-    steps: # group all the steps in the job named test-HPA-version
+  #test-HPA-version2: # name of the first job
+    #runs-on: ubuntu-latest # The type of runner that the job will run on
+    #container: bioconductor/bioconductor_docker:devel
+    #env:
+      #GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    #needs: test-HPA-version  
+    #steps: # group all the steps in the job named test-HPA-version
     
-      - name: Check HPA release
-        id: check_HPA
+       - name: Check HPA release
+         id: check_HPA
         ## This will fail if there's a new version
-        run: Rscript -e "stopifnot(!hpar:::newHpaVersion())"
+         run: Rscript -e "stopifnot(!hpar:::newHpaVersion())"
          #run: Rscript -e "stopifnot(FALSE)"
 
 #------------------ 
 # conditional JOB 3
 #------------------ 
-  if-failure: # name of the second job
-     runs-on: ubuntu-latest # The type of runner that the job will run on
-     needs: test-HPA-version2
-     if: always() && (needs.test-HPA-version2.result == 'failure')
+  #if-failure: # name of the second job
+     #runs-on: ubuntu-latest # The type of runner that the job will run on
+     #needs: test-HPA-version2
+     #if: always() && (needs.test-HPA-version2.result == 'failure')
      
      
-     steps: # group all the steps in the job named if-failure
+     #steps: # group all the steps in the job named if-failure
      
        - uses: actions/checkout@master # an action that checks out your repository and downloads it to the runner, allowing you to run actions against your code
          
@@ -61,10 +61,12 @@ jobs: # groups all the jobs ran in this workflow
            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
          with:
            filename: .github/ISSUE_TEMPLATE/checking-for-hpar-update-.md
-           
+         if: always() && (steps.check_HPA.outcome == 'failure')
+         
        - run: 'echo Created issue number ${{ steps.create-issue.outputs.number }}'
- 
+         if: always() && (steps.check_HPA.outcome == 'failure')
+         
        - run: 'echo Created ${{ steps.create-issue.outputs.url }}'
-   
+         if: always() && (steps.check_HPA.outcome == 'failure')
        
  
