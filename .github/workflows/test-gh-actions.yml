@@ -22,15 +22,17 @@ jobs: # groups all the jobs ran in this workflow
          run:  Rscript -e "BiocManager::install('lgatto/hpar')"
          
        - name: Check HPA release
+         id: check_HPA
         ## This will fail if there's a new version
-         run: Rscript -e "stopifnot(!hpar:::newHpaVersion())"
-     
+         #run: Rscript -e "stopifnot(!hpar:::newHpaVersion())"
+         run: Rscript -e "stopifnot(FALSE)"
+         
 #------------------ 
 # conditional JOB 2
 #------------------ 
   if-failure: # name of the second job
      runs-on: ubuntu-latest # The type of runner that the job will run on
-     if: failure() #failure() or always()
+     if: always() && steps.check_HPA.outcome == 'failure'  #failure() or always()
      needs: test-HPA-version
      
      steps: # group all the steps in the job named if-failure
